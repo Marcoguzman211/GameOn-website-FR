@@ -434,23 +434,26 @@ input[data-error]::after {
 
 /* MAIN SECTION */
 .hero-section {
-    /*min-height: 93vh;*/
+    min-height: 60vh;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: 40% 60%;
+    grid-template-columns: repeat(12, 1fr); /* Changement de dispositions des espaces de la section principale, style bootstrap */
     overflow: hidden;
     box-shadow: 0 0.6rem 0.4rem 0.2rem rgba(0, 0, 0, 0.2);
-    margin: 2.5rem 0;
+    margin-bottom: 10px;
 }
 .hero-content {
-    /*padding: 51px 67px;*/
-    padding: 2rem 3rem;
+    padding: 51px 67px;
     grid-column: span 4;
     background: #232323;
     color: #fff;
     position: relative;
     text-align: left;
-    /*min-width: 330px;*/
+    /*Ajout de Flexbox pour gérer plus facilement les textes*/
+    /*display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;*/
 }
 .hero-content::after {
     content: "";
@@ -466,9 +469,10 @@ input[data-error]::after {
     z-index: 1;
 }
 .hero-headline {
-    font-size: 6rem;
+    width: 300%;
+    font-size: 5rem;
     font-weight: normal;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 .hero-text {
     width: 146%;
@@ -478,11 +482,9 @@ input[data-error]::after {
 }
 .btn-signup {
     outline: none;
-    text-transform: capitalize;
     font-size: 1.3rem;
     padding: 15px 23px;
-    margin: 0;
-    margin-top: 59px;
+    margin: 59px 0 0 0;
 }
 .hero-img {
     grid-column: span 8;
@@ -492,6 +494,7 @@ input[data-error]::after {
     height: 100%;
     display: block;
     padding: 0;
+    object-fit: cover; /* ajouté */
 }
 .copyrights {
     color: #fe142f;
@@ -510,8 +513,12 @@ footer {
 }
 @media screen and (max-width: 800px) {
     .hero-section {
-        display: block;
-        box-shadow: unset;
+       /* Mise en place de flexbox pour afficher en mobile*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0;
+        box-shadow: none;
     }
     .hero-content {
         background: #fff;
@@ -527,6 +534,7 @@ footer {
     .hero-headline {
         font-size: 40px; /*Taille de la police jusqu'à tablette*/
         white-space: normal;
+        font-weight: bold;
     }
     .hero-text {
         width: unset;
@@ -535,8 +543,10 @@ footer {
     }
     .hero-img img {
         border-radius: 10px;
-        margin: 40px auto;
-        width: 13em;
+        /*margin: 40px auto;*/
+        margin: 0;
+        width: 100%;
+        display: flex;
     }
     .hero-section > .btn-signup {
         display: block;
