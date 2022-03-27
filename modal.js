@@ -17,12 +17,14 @@ const NAMES_REGEX = /^[a-zA-Z\-]+$/;
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const modalBtnSubmit = document.querySelector(".btn-submit");
-const formData = document.querySelector('#form');
+const formData = document.getElementById('form')
 
 //Formulaire
 //Elements
-const inputFirstName = document.getElementById('first');
-const inputLastName = document.getElementById('last');
+/*const inputFirstName = document.getElementById('first');
+const inputLastName = document.getElementById('last');*/
+const inputFirstName = document.querySelector('input[name=first]')
+const inputLastName = document.querySelector('input[name=last]')
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
@@ -89,9 +91,7 @@ const validateLastNameInput = () => {
 let formValidated
 const validate = (e) => {
   e.preventDefault()
-  if (!validateLastNameInput() === true) {
-    formValidated = false;
-  } else if (!validateFirstNameInput() === true) {
+  if (!validateLastNameInput() === true && !validateFirstNameInput() === true) {
     formValidated = false;
   } else {
     formValidated = true
@@ -103,3 +103,4 @@ const validate = (e) => {
 
 }
 formData.addEventListener('submit', validate)
+modalBtnSubmit.addEventListener('click', validate)
