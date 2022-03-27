@@ -11,7 +11,7 @@
 /* Landing Page */
 
 body {
-    margin: 0;
+    /*margin: 0;*/
     display: flex;
     flex-direction: column;
     /* background-image: url("background.png"); */
@@ -68,6 +68,17 @@ img {
     display: none;
 }
 
+.input-error { /* ajouté */
+    border: solid 2px red;
+}
+.input-validation { /* ajouté */
+    border: solid 4px rgb(2, 190, 2);
+}
+
+.form-error-message {
+    color: #fe142f;
+    font-size: 0.6em;
+}
 
 /* Version mobile */
 @media screen and (max-width: 768px) {
