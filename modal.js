@@ -27,13 +27,14 @@ const inputFirstName = document.querySelector('input[name=first]')
 const inputLastName = document.querySelector('input[name=last]')
 const inputEmail = document.querySelector('input[name=email]')
 const inputBirthdate = document.querySelector('input[name=birthdate]')
+const inputNumberOfTournaments = document.querySelector('input[name=quantity]')
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
 const errorLastName = document.getElementById("error_last"); // ajouté
 const errorEmail = document.getElementById("error_email"); // ajouté
 const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
-/*const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
+const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
 
 
 // launch modal form and event
@@ -88,7 +89,7 @@ const validateLastNameInput = () => {
     return true
   } else {
     errorLastName.classList.add("form-error-message")
-    errorLastName.textContent = "Veuillez entrer 2 caractères ou plus pour le champ du nom."
+    errorLastName.textContent = "Veuillez entrer au moins 2 caractères pour votre nom."
     return false
   }
 }
@@ -100,6 +101,8 @@ inputEmail.addEventListener("keyup", () => {
 })
 
 const validateEmailInput = () => {
+  //Résout bug de saisie automatique : ⬇️
+  errorEmail.textContent = ""
   if (inputEmail.value.match(EMAIL_REGEX)) {
     inputEmail.classList.add('input-validation')
     return true
@@ -116,17 +119,36 @@ const validateEmailInput = () => {
 const validateBirthdate = () => {
   if (inputBirthdate.value.match(BIRTHDATE_REGEX)) {
     inputBirthdate.classList.add('input-validation')
+    errorBirthdate.textContent = "";
     return true
   } else if (inputBirthdate.value.length === 0) {
     inputBirthdate.classList.add('input-error')
     errorBirthdate.classList.add("form-error-message");
-    errorBirthdate.textContent = "Veuillez entrer une date de naissance";
+    errorBirthdate.textContent = "Veuillez entrer une date de naissance.";
     return false;
   } else {
     inputBirthdate.classList.add('input-error')
     errorBirthdate.classList.add("form-error-message");
-    errorBirthdate.textContent = "Le format de votre date de naissance doit être valide";
+    errorBirthdate.textContent = "Le format de votre date de naissance doit être valide.";
     return false
+  }
+}
+
+//Validation
+
+const validateNumberOfEvents = () => {
+  if (inputNumberOfTournaments.value.match(QUANTITY_REGEX)) {
+    inputNumberOfTournaments.classList.add('input-validation')
+    errorQuantity.textContent = "";
+    return true
+  } else if (inputNumberOfTournaments.value.length === 0) {
+    inputNumberOfTournaments.classList.add('input-error')
+    errorQuantity.classList.add("form-error-message");
+    errorQuantity.textContent = "Veuillez saisir un chiffre.";
+  } else {
+    inputNumberOfTournaments.classList.add('input-error')
+    errorQuantity.classList.add("form-error-message");
+    errorQuantity.textContent = "Veuillez saisir un nombre positif.";
   }
 }
 
@@ -140,6 +162,7 @@ const validate = (e) => {
   validateLastNameInput()
   validateEmailInput()
   validateBirthdate()
+  validateNumberOfEvents()
 
   if (!validateFirstNameInput()) {
     formValidated = false;
@@ -149,12 +172,14 @@ const validate = (e) => {
     formValidated = false;
   } else if (!validateBirthdate()) {
     formValidated = false;
-  } else {
+  } else if (!validateNumberOfEvents()) {
+    formValidated = false;
+  }else {
     formValidated = true
   }
 
   if (formValidated === true) {
-    console.log('Yeeeesss')
+    console.log('Formulaire reçu avec succès')
   }
 
 }
