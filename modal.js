@@ -29,7 +29,6 @@ const inputLastName = document.querySelector('input[name=last]')
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
 const errorLastName = document.getElementById("error_last"); // ajouté
-console.log(errorLastName)
 /*const errorEmail = document.getElementById("error_email"); // ajouté
 const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
 const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
@@ -49,6 +48,7 @@ closeBtn.addEventListener("click", hideModal)
 
 //Validation firstName input value
 inputFirstName.addEventListener('keyup', () => {
+  inputFirstName.classList.remove('input-validation')
   if (inputFirstName.value.length < 2) {
     inputFirstName.classList.add("input-error");
   } else {
@@ -58,16 +58,19 @@ inputFirstName.addEventListener('keyup', () => {
 
 const validateFirstNameInput = () => {
   if (inputFirstName.value.length >= 2 && inputFirstName.value.match(NAMES_REGEX)) {
+    errorFirstName.textContent = ""
+    inputFirstName.classList.add('input-validation')
     return true
   } else {
     errorFirstName.classList.add("form-error-message")
-    errorFirstName.textContent = "Veuillez entrer 2 caractères ou plus pour le champ du prénom."
+    errorFirstName.textContent = "Veuillez entrer au moins 2 caractères pour votre prénom."
     return false
   }
 }
 
 //Validation Last Name
-inputLastName.addEventListener('keyup', (e) => {
+inputLastName.addEventListener('keyup', () => {
+  inputLastName.classList.remove('input-validation')
   if (inputLastName.value.length < 2) {
     inputLastName.classList.add("input-error");
   } else {
@@ -76,8 +79,10 @@ inputLastName.addEventListener('keyup', (e) => {
 })
 
 const validateLastNameInput = () => {
+
   if (inputLastName.value.length >= 2 && inputLastName.value.match(NAMES_REGEX)) {
-    console.log("Nom de famille a marché")
+    errorLastName.textContent = ""
+    inputLastName.classList.add('input-validation')
     return true
   } else {
     errorLastName.classList.add("form-error-message")
@@ -91,7 +96,13 @@ const validateLastNameInput = () => {
 let formValidated
 const validate = (e) => {
   e.preventDefault()
-  if (!validateLastNameInput() === true && !validateFirstNameInput() === true) {
+
+  validateFirstNameInput()
+  validateLastNameInput()
+
+  if (!validateFirstNameInput()) {
+    formValidated = false;
+  } else if (!validateLastNameInput()) {
     formValidated = false;
   } else {
     formValidated = true
@@ -103,4 +114,4 @@ const validate = (e) => {
 
 }
 formData.addEventListener('submit', validate)
-modalBtnSubmit.addEventListener('click', validate)
+/*modalBtnSubmit.addEventListener('click', validate)*/
