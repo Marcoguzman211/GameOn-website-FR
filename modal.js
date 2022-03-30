@@ -25,12 +25,14 @@ const formData = document.getElementById('form')
 const inputLastName = document.getElementById('last');*/
 const inputFirstName = document.querySelector('input[name=first]')
 const inputLastName = document.querySelector('input[name=last]')
+const inputEmail = document.querySelector('input[name=email]')
+console.log(inputEmail)
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
 const errorLastName = document.getElementById("error_last"); // ajouté
-/*const errorEmail = document.getElementById("error_email"); // ajouté
-const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
+const errorEmail = document.getElementById("error_email"); // ajouté
+/* const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
 const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
 
 
@@ -91,6 +93,25 @@ const validateLastNameInput = () => {
   }
 }
 
+//Validation Mail
+inputEmail.addEventListener("keyup", () => {
+  inputEmail.classList.remove('input-error')
+  inputEmail.classList.remove('input-validation')
+})
+
+const validateEmailInput = () => {
+  if (inputEmail.value.match(EMAIL_REGEX)) {
+    inputEmail.classList.add('input-validation')
+    return true
+  } else {
+    inputEmail.classList.add('input-error')
+    errorEmail.classList.add("form-error-message");
+    errorEmail.textContent = " L'adresse électronique n'est pas valide."
+    return false
+  }
+
+}
+
 
 //Function finale pour valider le formulaire
 let formValidated
@@ -99,10 +120,13 @@ const validate = (e) => {
 
   validateFirstNameInput()
   validateLastNameInput()
+  validateEmailInput()
 
   if (!validateFirstNameInput()) {
     formValidated = false;
   } else if (!validateLastNameInput()) {
+    formValidated = false;
+  } else if (!validateEmailInput()) {
     formValidated = false;
   } else {
     formValidated = true
