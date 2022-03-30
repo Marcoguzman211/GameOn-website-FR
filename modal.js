@@ -9,7 +9,7 @@ function editNav() {
 
 //REGEX
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-const BIRTHDATE_REGEX = /^\d{4}\-\d{2}\-\d{2}$/;
+const BIRTHDATE_REGEX = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 const QUANTITY_REGEX = /^[0-9]+$/;
 const NAMES_REGEX = /^[a-zA-Z\-]+$/;
 
@@ -26,14 +26,14 @@ const inputLastName = document.getElementById('last');*/
 const inputFirstName = document.querySelector('input[name=first]')
 const inputLastName = document.querySelector('input[name=last]')
 const inputEmail = document.querySelector('input[name=email]')
-console.log(inputEmail)
+const inputBirthdate = document.querySelector('input[name=birthdate]')
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
 const errorLastName = document.getElementById("error_last"); // ajouté
 const errorEmail = document.getElementById("error_email"); // ajouté
-/* const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
-const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
+const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
+/*const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
 
 
 // launch modal form and event
@@ -109,7 +109,25 @@ const validateEmailInput = () => {
     errorEmail.textContent = " L'adresse électronique n'est pas valide."
     return false
   }
+}
 
+
+//Validation Birthdate Input
+const validateBirthdate = () => {
+  if (inputBirthdate.value.match(BIRTHDATE_REGEX)) {
+    inputBirthdate.classList.add('input-validation')
+    return true
+  } else if (inputBirthdate.value.length === 0) {
+    inputBirthdate.classList.add('input-error')
+    errorBirthdate.classList.add("form-error-message");
+    errorBirthdate.textContent = "Veuillez entrer une date de naissance";
+    return false;
+  } else {
+    inputBirthdate.classList.add('input-error')
+    errorBirthdate.classList.add("form-error-message");
+    errorBirthdate.textContent = "Le format de votre date de naissance doit être valide";
+    return false
+  }
 }
 
 
@@ -121,12 +139,15 @@ const validate = (e) => {
   validateFirstNameInput()
   validateLastNameInput()
   validateEmailInput()
+  validateBirthdate()
 
   if (!validateFirstNameInput()) {
     formValidated = false;
   } else if (!validateLastNameInput()) {
     formValidated = false;
   } else if (!validateEmailInput()) {
+    formValidated = false;
+  } else if (!validateBirthdate()) {
     formValidated = false;
   } else {
     formValidated = true
