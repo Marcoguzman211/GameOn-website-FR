@@ -28,6 +28,7 @@ const inputLastName = document.querySelector('input[name=last]')
 const inputEmail = document.querySelector('input[name=email]')
 const inputBirthdate = document.querySelector('input[name=birthdate]')
 const inputNumberOfTournaments = document.querySelector('input[name=quantity]')
+let inputLocations = document.getElementsByName("location"); // Tous les inputs type radio
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
@@ -35,6 +36,8 @@ const errorLastName = document.getElementById("error_last"); // ajouté
 const errorEmail = document.getElementById("error_email"); // ajouté
 const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
 const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
+const errorLocation = document.getElementById('error_location')
+errorLocation.textContent = "Hola"
 
 
 // launch modal form and event
@@ -134,9 +137,9 @@ const validateBirthdate = () => {
   }
 }
 
-//Validation
+//Validation number of Events
 
-const validateNumberOfEvents = () => {
+const validateNumberOfTournaments = () => {
   if (inputNumberOfTournaments.value.match(QUANTITY_REGEX)) {
     inputNumberOfTournaments.classList.add('input-validation')
     errorQuantity.textContent = "";
@@ -152,7 +155,31 @@ const validateNumberOfEvents = () => {
   }
 }
 
+//Validation locations
 
+/*
+inputLocations.forEach(location => {
+  location.addEventListener('click', () => {
+    errorLocation.textContent = ""
+  })
+})
+*/
+
+const validateLocations = () => {
+  let locationSelected = ""
+  inputLocations.forEach(location => {
+    if(location.checked) {
+      locationSelected = location.value
+      errorLocation.textContent = ""
+     return true
+    }
+  })
+  if (locationSelected === "") {
+    errorLocation.textContent = 'Veuillez choisir une ville.'
+    errorLocation.classList.add('form-error-message')
+    return false
+  }
+}
 //Function finale pour valider le formulaire
 let formValidated
 const validate = (e) => {
@@ -162,7 +189,8 @@ const validate = (e) => {
   validateLastNameInput()
   validateEmailInput()
   validateBirthdate()
-  validateNumberOfEvents()
+  validateNumberOfTournaments()
+  validateLocations()
 
   if (!validateFirstNameInput()) {
     formValidated = false;
@@ -172,9 +200,11 @@ const validate = (e) => {
     formValidated = false;
   } else if (!validateBirthdate()) {
     formValidated = false;
-  } else if (!validateNumberOfEvents()) {
+  } else if (!validateNumberOfTournaments()) {
     formValidated = false;
-  }else {
+  }else if(!validateLocations()) {
+    formValidated = false;
+  } else {
     formValidated = true
   }
 
