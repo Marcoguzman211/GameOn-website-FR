@@ -28,7 +28,8 @@ const inputLastName = document.querySelector('input[name=last]')
 const inputEmail = document.querySelector('input[name=email]')
 const inputBirthdate = document.querySelector('input[name=birthdate]')
 const inputNumberOfTournaments = document.querySelector('input[name=quantity]')
-let inputLocations = document.getElementsByName("location"); // Tous les inputs type radio
+const inputLocations = document.getElementsByName("location"); // Tous les inputs type radio
+const conditionsCheckbox = document.querySelector('#checkbox1')
 
 //Messages d'Erreur
 const errorFirstName = document.getElementById("error_first"); // ajouté
@@ -37,7 +38,7 @@ const errorEmail = document.getElementById("error_email"); // ajouté
 const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
 const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
 const errorLocation = document.getElementById('error_location')
-errorLocation.textContent = "Hola"
+const errorConditions = document.getElementById('error_conditions')
 
 
 // launch modal form and event
@@ -148,22 +149,16 @@ const validateNumberOfTournaments = () => {
     inputNumberOfTournaments.classList.add('input-error')
     errorQuantity.classList.add("form-error-message");
     errorQuantity.textContent = "Veuillez saisir un chiffre.";
+    return false
   } else {
     inputNumberOfTournaments.classList.add('input-error')
     errorQuantity.classList.add("form-error-message");
     errorQuantity.textContent = "Veuillez saisir un nombre positif.";
+    return false
   }
 }
 
 //Validation locations
-
-/*
-inputLocations.forEach(location => {
-  location.addEventListener('click', () => {
-    errorLocation.textContent = ""
-  })
-})
-*/
 
 const validateLocations = () => {
   let locationSelected = ""
@@ -180,33 +175,37 @@ const validateLocations = () => {
     return false
   }
 }
+
+//Validation conditions
+const validateConditions = () => {
+  if (conditionsCheckbox.checked) {
+    errorConditions.textContent = ""
+    return true
+  } else {
+    errorConditions.classList.add("form-error-message")
+    errorConditions.textContent = "Veuillez accepter nos conditions d'utilisation"
+    return false;
+  }
+}
+
+
 //Function finale pour valider le formulaire
 let formValidated
 const validate = (e) => {
   e.preventDefault()
 
-  validateFirstNameInput()
-  validateLastNameInput()
-  validateEmailInput()
-  validateBirthdate()
-  validateNumberOfTournaments()
-  validateLocations()
-
-  if (!validateFirstNameInput()) {
-    formValidated = false;
-  } else if (!validateLastNameInput()) {
-    formValidated = false;
-  } else if (!validateEmailInput()) {
-    formValidated = false;
-  } else if (!validateBirthdate()) {
-    formValidated = false;
-  } else if (!validateNumberOfTournaments()) {
-    formValidated = false;
-  }else if(!validateLocations()) {
-    formValidated = false;
+  if((validateFirstNameInput() === false) ||
+      (validateLastNameInput() === false) ||
+      (validateEmailInput() === false) ||
+      (validateBirthdate() === false) ||
+      (validateNumberOfTournaments() === false) ||
+      (validateLocations() === false) ||
+      (validateConditions() === false)) {
+    formValidated = false
   } else {
-    formValidated = true
+    formValidated = true;
   }
+  console.log(formValidated)
 
   if (formValidated === true) {
     console.log('Formulaire reçu avec succès')
