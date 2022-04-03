@@ -52,16 +52,22 @@ img {
     font-family: Roboto, sans-serif;
 }
 
-.topnav a:hover {
+.menu-item:hover {
     background-color: #ff0000;
     color: #ffffff;
     border-radius: 15px;
+    text-decoration: underline;
 }
+/*.main-navbar a:hover {
+    text-decoration: underline;
+}*/
+
 
 .topnav a.active {
     background-color: #ff0000;
     color: #ffffff;
     border-radius: 15px;
+    text-decoration: underline;
 }
 
 .topnav .icon {
@@ -69,14 +75,14 @@ img {
 }
 
 .input-error { /* ajouté */
-    border: solid 2px red;
+    border: solid 2px #FF2600;
 }
 .input-validation { /* ajouté */
-    border: solid 4px rgb(2, 190, 2);
+    border: solid 4px #62c370;
 }
 
 .form-error-message {
-    color: #fe142f;
+    color: #FF2600;
     font-size: 0.6em;
 }
 
@@ -88,6 +94,9 @@ img {
     }
     .main-navbar a {
         font-size: 15px;
+    }
+    .hero-br {
+        display: none;
     }
 }
 
