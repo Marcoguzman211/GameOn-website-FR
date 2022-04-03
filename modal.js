@@ -16,8 +16,8 @@ const NAMES_REGEX = /^[a-zA-Z\-]+$/;
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const modalBtnSubmit = document.querySelector(".btn-submit");
 const formData = document.getElementById('form')
+const modalBody = document.querySelector('.modal-body')
 
 //Formulaire
 //Elements
@@ -194,6 +194,14 @@ let formValidated
 const validate = (e) => {
   e.preventDefault()
 
+  validateFirstNameInput()
+  validateLastNameInput()
+  validateEmailInput()
+  validateBirthdate()
+  validateNumberOfTournaments()
+  validateLocations()
+  validateConditions()
+
   if((validateFirstNameInput() === false) ||
       (validateLastNameInput() === false) ||
       (validateEmailInput() === false) ||
@@ -205,12 +213,14 @@ const validate = (e) => {
   } else {
     formValidated = true;
   }
-  console.log(formValidated)
 
   if (formValidated === true) {
-    console.log('Formulaire reçu avec succès')
+    modalBody.innerHTML = `<div class="thanks modal-thanks" id="thanks">
+              <div class="thanks-message">
+                <p>Merci pour votre inscription</p>
+                <button class="btn-submit" onclick=window.location.reload()>Fermer</button>
+              </div>
+            </div>`
   }
-
 }
 formData.addEventListener('submit', validate)
-/*modalBtnSubmit.addEventListener('click', validate)*/

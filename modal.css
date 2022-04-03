@@ -198,6 +198,25 @@ main {
 
 /* Modal form */
 
+.thanks-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 800px; /* 300px modifié puis 80vh */
+}
+.thanks-message p {
+    display: flex; /* ajouté */
+    flex-direction: column; /* ajouté */
+    justify-content: center; /* ajouté */
+    width: 309px;
+    font-weight: 400;
+    font-size: 36px;
+    text-align: center;
+    margin: 15% 0 20% 0;
+    height: 70vh;
+}
+
 .button {
     background: #fe142f;
     margin-top: 0.5em;
