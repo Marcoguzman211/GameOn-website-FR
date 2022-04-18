@@ -53,6 +53,18 @@ const closeBtn = document.querySelector(".close")
 closeBtn.addEventListener("click", hideModal)
 
 
+/*Validation de prénom et nom*/
+const validateTextInput = (textInput, inputError) => {
+  if (textInput.value.length >= 2 && textInput.value.match(NAMES_REGEX)) {
+    inputError.textContent = ""
+    textInput.classList.add('input-validation')
+    return true
+  } else {
+    inputError.classList.add("form-error-message")
+    inputError.textContent = "Veuillez entrer au moins 2 caractères."
+    return false
+  }
+}
 //Validation firstName input value
 inputFirstName.addEventListener('keyup', () => {
   inputFirstName.classList.remove('input-validation')
@@ -63,19 +75,7 @@ inputFirstName.addEventListener('keyup', () => {
   }
 })
 
-const validateFirstNameInput = () => {
-  if (inputFirstName.value.length >= 2 && inputFirstName.value.match(NAMES_REGEX)) {
-    errorFirstName.textContent = ""
-    inputFirstName.classList.add('input-validation')
-    return true
-  } else {
-    errorFirstName.classList.add("form-error-message")
-    errorFirstName.textContent = "Veuillez entrer au moins 2 caractères pour votre prénom."
-    return false
-  }
-}
-
-//Validation Last Name
+//Validation Last Name value
 inputLastName.addEventListener('keyup', () => {
   inputLastName.classList.remove('input-validation')
   if (inputLastName.value.length < 2) {
@@ -84,19 +84,6 @@ inputLastName.addEventListener('keyup', () => {
     inputLastName.classList.remove('input-error')
   }
 })
-
-const validateLastNameInput = () => {
-
-  if (inputLastName.value.length >= 2 && inputLastName.value.match(NAMES_REGEX)) {
-    errorLastName.textContent = ""
-    inputLastName.classList.add('input-validation')
-    return true
-  } else {
-    errorLastName.classList.add("form-error-message")
-    errorLastName.textContent = "Veuillez entrer au moins 2 caractères pour votre nom."
-    return false
-  }
-}
 
 //Validation Mail
 inputEmail.addEventListener("keyup", () => {
@@ -174,6 +161,7 @@ const validateLocations = () => {
     errorLocation.classList.add('form-error-message')
     return false
   }
+  return true
 }
 
 //Validation conditions
@@ -194,23 +182,26 @@ let formValidated
 const validate = (e) => {
   e.preventDefault()
 
-  validateFirstNameInput()
-  validateLastNameInput()
-  validateEmailInput()
-  validateBirthdate()
-  validateNumberOfTournaments()
-  validateLocations()
-  validateConditions()
+  let firstName = validateTextInput(inputFirstName, errorFirstName)
+  let lastName = validateTextInput(inputLastName, errorLastName)
+  let email = validateEmailInput()
+  let birthday = validateBirthdate()
+  let numberOfTournaments = validateNumberOfTournaments()
+  let locations = validateLocations()
+  let conditions = validateConditions()
 
-  if((validateFirstNameInput() === false) ||
-      (validateLastNameInput() === false) ||
-      (validateEmailInput() === false) ||
-      (validateBirthdate() === false) ||
-      (validateNumberOfTournaments() === false) ||
-      (validateLocations() === false) ||
-      (validateConditions() === false)) {
+  console.log(locations)
+
+  if(!firstName||
+      !lastName ||
+      !email ||
+      !birthday ||
+      !numberOfTournaments ||
+      !locations ||
+      !conditions) {
     formValidated = false
   } else {
+    console.log(formValidated)
     formValidated = true;
   }
 
