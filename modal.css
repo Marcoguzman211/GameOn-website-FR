@@ -56,18 +56,20 @@ img {
     background-color: #ff0000;
     color: #ffffff;
     border-radius: 15px;
-    text-decoration: underline;
 }
-/*.main-navbar a:hover {
-    text-decoration: underline;
-}*/
+.main-navbar a:hover span {
+    border-bottom: 1px solid #ffffff;
+}
 
 
-.topnav a.active {
+.topnav a:active {
     background-color: #ff0000;
     color: #ffffff;
     border-radius: 15px;
-    text-decoration: underline;
+}
+
+.topnav a.active span {
+   border-bottom: 1px solid #ffffff;
 }
 
 .topnav .icon {

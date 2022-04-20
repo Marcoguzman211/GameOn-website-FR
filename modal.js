@@ -7,36 +7,33 @@ function editNav() {
   }
 }
 
-//REGEX
+/*Différents REGEX trouvés en ligne afin de valider les inputs de façon efficace et sans trop de code. */
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const BIRTHDATE_REGEX = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 const QUANTITY_REGEX = /^[0-9]+$/;
-const NAMES_REGEX = /^[a-zA-Z\-]+$/;
+const NAMES_REGEX = /^[a-zA-Z\-áàâäçéèêòôöúùûüæœÁÉÈÊ]+$/;
 
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
+/*Ici je cible les éléments les plus importants du DOM afin de les manipuler. */
+const modalbg = document.querySelector(".bground")
+const modalBtn = document.querySelectorAll(".modal-btn")
 const formData = document.getElementById('form')
 const modalBody = document.querySelector('.modal-body')
 
-//Formulaire
-//Elements
-/*const inputFirstName = document.getElementById('first');
-const inputLastName = document.getElementById('last');*/
+/*Stockage des différents inputs dans des variables pour pouvoir les utiliser et cibler dans les fonctions de validation. */
 const inputFirstName = document.querySelector('input[name=first]')
 const inputLastName = document.querySelector('input[name=last]')
 const inputEmail = document.querySelector('input[name=email]')
 const inputBirthdate = document.querySelector('input[name=birthdate]')
 const inputNumberOfTournaments = document.querySelector('input[name=quantity]')
-const inputLocations = document.getElementsByName("location"); // Tous les inputs type radio
-const conditionsCheckbox = document.querySelector('#checkbox1')
+const inputLocations = document.getElementsByName("location"); // Crée un Array avec tous les endroits possibles à sélectionner.
+const conditionsCheckbox = document.querySelector('#checkbox1') // Cible la checkbox des conditions (La seule nécessaire pour valider le formulaire)
 
-//Messages d'Erreur
-const errorFirstName = document.getElementById("error_first"); // ajouté
-const errorLastName = document.getElementById("error_last"); // ajouté
-const errorEmail = document.getElementById("error_email"); // ajouté
-const errorBirthdate = document.getElementById("error_birthdate"); // ajouté
-const errorQuantity = document.getElementById("error_quantity"); // ajouté*/
+/* Balise vide sous chaque input qui sera remplies si des erreurs sont présents. */
+const errorFirstName = document.getElementById("error_first")
+const errorLastName = document.getElementById("error_last")
+const errorEmail = document.getElementById("error_email")
+const errorBirthdate = document.getElementById("error_birthdate")
+const errorQuantity = document.getElementById("error_quantity")
 const errorLocation = document.getElementById('error_location')
 const errorConditions = document.getElementById('error_conditions')
 
@@ -53,19 +50,30 @@ const closeBtn = document.querySelector(".close")
 closeBtn.addEventListener("click", hideModal)
 
 
-/*Validation de prénom et nom*/
+/*Validation de prénom et nom :
+* C'est une fonction qui prend deux arguments, l'input et la balise vide en dessous,
+* les traite avec des regex et en fonction de leur nombre de caractères, peut faire
+* un retour de true si le champ est bien rempli, ou false le cas contraire, tout en remplissant la balise vide
+* avec un message d'erreur.
+* */
 const validateTextInput = (textInput, inputError) => {
   if (textInput.value.length >= 2 && textInput.value.match(NAMES_REGEX)) {
     inputError.textContent = ""
     textInput.classList.add('input-validation')
     return true
+  } else if (textInput.value.length >=2 && !textInput.value.match(NAMES_REGEX)) {
+    inputError.classList.add("form-error-message")
+    textInput.classList.add("input-error");
+    inputError.textContent = "Ce champ ne doit pas contenir de caractères spéciaux ni d'espace."
   } else {
     inputError.classList.add("form-error-message")
+    textInput.classList.add("input-error");
     inputError.textContent = "Veuillez entrer au moins 2 caractères."
     return false
   }
 }
-//Validation firstName input value
+/* Deux eventsListeners qui permettent de signaler en temps réel
+* si l'input du prénom ou du nom contient suffisamment des caractères avant de le valider */
 inputFirstName.addEventListener('keyup', () => {
   inputFirstName.classList.remove('input-validation')
   if (inputFirstName.value.length < 2) {
@@ -75,7 +83,6 @@ inputFirstName.addEventListener('keyup', () => {
   }
 })
 
-//Validation Last Name value
 inputLastName.addEventListener('keyup', () => {
   inputLastName.classList.remove('input-validation')
   if (inputLastName.value.length < 2) {
@@ -85,12 +92,11 @@ inputLastName.addEventListener('keyup', () => {
   }
 })
 
-//Validation Mail
-inputEmail.addEventListener("keyup", () => {
-  inputEmail.classList.remove('input-error')
-  inputEmail.classList.remove('input-validation')
-})
 
+/*Le reste de fonctions fonctionnent sous la même logique
+* Mais sans les arguments*/
+
+//Validation du champ Email avec un REGEX
 const validateEmailInput = () => {
   //Résout bug de saisie automatique : ⬇️
   errorEmail.textContent = ""
@@ -106,18 +112,29 @@ const validateEmailInput = () => {
 }
 
 
-//Validation Birthdate Input
+//Corrige une erreur d'affichage de messages d'erreur avec le remplissage automatique
+inputEmail.addEventListener("keyup", () => {
+  inputEmail.classList.remove('input-error')
+  inputEmail.classList.remove('input-validation')
+})
+
+
+/*Validation Birthdate Input
+* La particularité de cette fonction est qu'elle peut afficher des messages d'erreur différents,
+* quand elle est vide ou quand elle n'a pas le bon format*/
 const validateBirthdate = () => {
   if (inputBirthdate.value.match(BIRTHDATE_REGEX)) {
     inputBirthdate.classList.add('input-validation')
     errorBirthdate.textContent = "";
     return true
   } else if (inputBirthdate.value.length === 0) {
+    inputBirthdate.classList.remove('input-validation')
     inputBirthdate.classList.add('input-error')
     errorBirthdate.classList.add("form-error-message");
-    errorBirthdate.textContent = "Veuillez entrer une date de naissance.";
+    errorBirthdate.textContent = "Veuillez entrer une date de naissance valide.";
     return false;
   } else {
+    inputBirthdate.classList.remove('input-validation')
     inputBirthdate.classList.add('input-error')
     errorBirthdate.classList.add("form-error-message");
     errorBirthdate.textContent = "Le format de votre date de naissance doit être valide.";
@@ -125,8 +142,7 @@ const validateBirthdate = () => {
   }
 }
 
-//Validation number of Events
-
+//Validation du nombre des tournois, ne peut pas être négatif ni vide.
 const validateNumberOfTournaments = () => {
   if (inputNumberOfTournaments.value.match(QUANTITY_REGEX)) {
     inputNumberOfTournaments.classList.add('input-validation')
@@ -190,19 +206,38 @@ const validate = (e) => {
   let locations = validateLocations()
   let conditions = validateConditions()
 
-  console.log(locations)
-
-  if(!firstName||
-      !lastName ||
-      !email ||
-      !birthday ||
-      !numberOfTournaments ||
-      !locations ||
-      !conditions) {
-    formValidated = false
-  } else {
-    console.log(formValidated)
-    formValidated = true;
+  switch(false) {
+    case firstName:
+      console.log('Échec input prénom')
+      formValidated = false;
+      break;
+    case lastName:
+      console.log('Échec input nom')
+      formValidated = false;
+      break;
+    case email:
+      console.log('Échec input email')
+      formValidated = false;
+      break;
+    case birthday:
+      console.log('Échec input date de naissance')
+      formValidated = false;
+      break;
+    case numberOfTournaments:
+      console.log("Échec input nombre d'évènements")
+      formValidated = false;
+      break;
+    case locations:
+      console.log('Échec input endroit choisi')
+      formValidated = false;
+      break;
+    case conditions:
+      console.log("Échec input conditions d'utilisation")
+      formValidated = false;
+      break;
+    default:
+      console.log('Tous les champs sont valides')
+      formValidated = true;
   }
 
   if (formValidated === true) {
