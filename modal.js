@@ -65,6 +65,7 @@ const validateTextInput = (textInput, inputError) => {
     inputError.classList.add("form-error-message")
     textInput.classList.add("input-error");
     inputError.textContent = "Ce champ ne doit pas contenir de caractères spéciaux ni d'espace."
+    return false
   } else {
     inputError.classList.add("form-error-message")
     textInput.classList.add("input-error");
