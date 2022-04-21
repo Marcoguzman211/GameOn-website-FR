@@ -161,7 +161,9 @@ const validateNumberOfTournaments = () => {
   }
 }
 
-//Validation locations
+/* On boucle dans le tableau inputLocations, et on vérifie s'il y a au moins un checkbox qui est coché.
+* Sinon, on envoie le message d'erreur
+* */
 
 const validateLocations = () => {
   let locationSelected = ""
@@ -180,7 +182,7 @@ const validateLocations = () => {
   return true
 }
 
-//Validation conditions
+//Validation conditions d'utilisation
 const validateConditions = () => {
   if (conditionsCheckbox.checked) {
     errorConditions.textContent = ""
@@ -194,6 +196,9 @@ const validateConditions = () => {
 
 
 //Function finale pour valider le formulaire
+/* On sauvegarde le résultat de l'appel de chaque fonction dans des variables
+Puis avec un switch, je compare s'il y en a au moins une qui a return false
+Si toutes renvoient true, un message de remerciement est affiché. */
 let formValidated
 const validate = (e) => {
   e.preventDefault()
