@@ -88,6 +88,10 @@ img {
     font-size: 0.6em;
 }
 
+#error_conditions {
+    display: none;
+}
+
 @media (min-width: 769px) and (max-width: 1003px) {
     .header-logo {
     }

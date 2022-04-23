@@ -187,8 +187,10 @@ const validateLocations = () => {
 const validateConditions = () => {
   if (conditionsCheckbox.checked) {
     errorConditions.textContent = "";
+    errorConditions.style.display = "none";
     return true;
   } else {
+    errorConditions.style.display = "block";
     errorConditions.classList.add("form-error-message");
     errorConditions.textContent = "Veuillez accepter nos conditions d'utilisation";
     return false;
